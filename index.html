@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>ELUCIDATE™ by ryanlfoster</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>ELUCIDATE™</h1>
+        <p>A jQuery plugin to help you explain your HTML mockups. Facilitate design and front-end hand-offs to your development teams.</p>
+
+        <p class="view"><a href="https://github.com/ryanlfoster/Elucidate">View the Project on GitHub <small>ryanlfoster/Elucidate</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/ryanlfoster/Elucidate/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/ryanlfoster/Elucidate/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/ryanlfoster/Elucidate">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h2>ELUCIDATE™ - MAKE IT CLEAR.</h2>
+
+<p>A jQuery plugin to help you explain your HTML mockups. Facilitate design and front-end hand-offs to your development teams.</p>
+
+<h2>WHAT IS IT?</h2>
+
+<p>Elucidate™ is a jQuery plugin designed to help you document and explain your HTML mockups. The goal is to use simple and standard HTML markup while ensuring the documentation is <em>never</em> confused with the mockup itself. The purpose is to facilitate design and front-end hand-offs to your development teams. This is especially important when your design and development teams are remotely distributed. Ensure that you design interactions are clearly documented and understood.</p>
+
+<h2>BASIC USAGE</h2>
+
+<p>Add Elucidate™ to your site by including the following css and scripts to the head of your document.</p>
+
+<pre><code>&lt;link rel="stylesheet" href="elucidate/css/elucidate.css" type="text/css" media="screen, projection"&gt;
+&lt;script type="text/javascript" charset="utf-8" src="js/jquery.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" charset="utf-8" src="elucidate/js/cookie.jquery.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" charset="utf-8" src="elucidate/js/elucidate.jquery.js"&gt;&lt;/script&gt;
+</code></pre>
+
+<p>You invoke Elucidate™ by calling the function on whichever element you would like the controls added.</p>
+
+<pre><code>&lt;script type="text/javascript" charset="utf-8"&gt;
+  $(document).ready(function() {
+    $("body").elucidate();
+  });
+&lt;/script&gt;
+</code></pre>
+
+<p>This appends the annotation controls to the body element. If you pass in a collection, the controls will simply be added to the first item only.</p>
+
+<p>To create the annotations, simply add a title attribute with the text you want to any HTML elements. For example:</p>
+
+<pre><code>&lt;p title="Neither is there anyone who loves grief itself since it is grief and thus wants to obtain it"&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. &lt;/p&gt;
+</code></pre>
+
+<p>This will add a callout on the paragraph which reveals the annotation on rollover.</p>
+
+<h2>ADVANCED USAGE</h2>
+
+<p>There are quite a few options you can pass in to Elucidate™ to customize its display. These are the options, along with the default values:</p>
+
+<pre><code>metadata_ignore: ["viewport","keywords"]
+</code></pre>
+
+<p>This is an array of meta tags that are ignored when creating the page summary box. By default we're ignoring keywords and the viewport directive. Any others will be displayed.</p>
+
+<pre><code>annotation_selector: "[title]"
+</code></pre>
+
+<p>This is a jQuery selector to target which items are used for the callouts. The default finds all items that have a title attribute. You could for example, restrict this to a particular class ".annotate[title]". I do recommend only calling it on a collection that has title tags though.</p>
+
+<pre><code>label_instructions: "Show",
+label_annotations: "Notes",
+label_hotspots: "What's clickable?",
+label_notshown: "(Not shown in the current page state)",
+</code></pre>
+
+<p>These four options customize the user interface labels and have no effect on the functionality. 'label_notshown' only appears on the print version for items that happen to be hidden. This is especially useful if you are using the PolyPage plugin to hide elements and want to avoid "orphaned" annotations (more on PolyPage later).</p>
+
+<pre><code>ignore_hotspots_selector: "#pp_options a"
+</code></pre>
+
+<p>If there are links that you don't want highlighted for the "What's Clickable?" feature, include a jQuery for what to <em>ignore</em>. The default value ignores links that PolyPage uses, but you can add to that set.</p>
+
+<p>Here's an example of calling Elucidate™ with several custom options:  </p>
+
+<pre><code>&lt;script type="text/javascript" charset="utf-8"&gt;
+  $(document).ready(function() {
+    $("body").elucidate(
+        {label_instructions: "Mockup Annotations", label_annotations: "Callouts", metadata_ignore: [ "viewport" ] }
+      );
+    });
+&lt;/script&gt;
+</code></pre>
+
+<h2>TIPS &amp; TRICKS</h2>
+
+<ul>
+<li><p>Few people seem to take advantage of it, but the meta tag can take any arbitrary key/value pairs. For example, you could use source control revision, last modified date, revision, a project status of some sort, etc. </p></li>
+<li><p>Title attributes <em>seem</em> to allow arbitrary HTML. I wouldn't go crazy, but it seems that you can use bold, italic, br, etc., to style the annotation text.</p></li>
+</ul><h2>KNOWN ISSUES</h2>
+
+<ul>
+<li><p>Given that we're inserting elements into your HTML it is extremely difficult to avoid CSS collision. All of Elucidate™ styles are namespaced so that it is unlikely to affect your mockup, however, the reverse is not necessarily true. While, I've attempted to reset styles on each Elucidate™ element, any global styles you write on html elements tables, divs, spans, links, lists, etc. might collide. The best way to avoid any issues is to namespace your css by using classes/ids, or simply edit elucidate css file to override.</p></li>
+<li><p>Adding annotations to images is not supported at the moment, the annotation will silently disappear.</p></li>
+<li><p>Adding an annotation to a link tag doesn't work exactly right because the callout/annotation picks up the link behaviour/styling, meaning it'll likely be underlined and if you click it and it'll go where the link goes.</p></li>
+</ul><h2>ACKNOWLEDGEMENTS</h2>
+
+<p>Elucidate originally started out as a simple fork of the now dormant <a href="https://github.com/philoye/annotatr">Annotatr</a> plugin by Phil Oye. The goal was to update the styling and extend it for my own purposes. It has since morphed into a whole scale re-write with tons more functionality added. But, the original vision and code credit goes to Phil. Many Thanks. </p>
+
+<h2>LICENSE</h2>
+
+<p>This software is licensed under the MIT license.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/ryanlfoster">ryanlfoster</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
